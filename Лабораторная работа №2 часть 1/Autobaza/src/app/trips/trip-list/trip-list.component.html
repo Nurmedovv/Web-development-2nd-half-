@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-6">
+    <h4 class="mb-3">Список рейсов</h4>
+    <ul class="list-group">
+      <li *ngFor="let trip of trips$ | async" class="list-group-item list-group-item-action" [class.active]="selectedId === trip.id">
+        <a [routerLink]="[trip.id]" class="text-decoration-none d-block">
+          <strong>{{ trip.description }}</strong>
+          <br>
+          <small class="text-muted">Водитель: {{ trip.driver }}</small>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <router-outlet></router-outlet>
+  </div>
+</div>
