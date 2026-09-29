@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0">Список рейсов</h4>
+      <a routerLink="/addTrip" class="btn btn-sm btn-primary">Добавить рейс</a>
+    </div>
+    <ul class="list-group">
+      @for (trip of trips(); track trip.id) {
+        <li
+          class="list-group-item list-group-item-action"
+          [class.active]="selectedId() === trip.id"
+        >
+          <a [routerLink]="[trip.id]" class="text-decoration-none d-block">
+            <strong>{{ trip.description }}</strong>
+            <br>
+            <small class="text-muted">Водитель: {{ trip.driver }}</small>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <router-outlet></router-outlet>
+  </div>
+</div>
