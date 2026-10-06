@@ -1,9 +1,0 @@
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Лабораторная работа №2 — открытый доступ для демо (без Auth)
-    match /{document=**} {
-      allow read, write: if true;
-    }
-  }
-}
