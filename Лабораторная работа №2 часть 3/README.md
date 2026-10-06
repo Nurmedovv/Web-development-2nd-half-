@@ -1,133 +1,563 @@
-# Лабораторная работа №2 — TypeScript, Angular, Firebase (часть 3) / Laboratory Work No. 2 — TypeScript, Angular, Firebase (Part 3)
-**Вариант 8 — Автобаза. Управление рейсами. / Variant 8 — Motor Depot. Flight Management.**
+# Лабораторная работа №2 — TypeScript, Angular, Firebase (часть 3)
+
+Разработка Angular-приложения для варианта **Автобаза**.  
+**Вариант 8**: Автобаза. Управление рейсами.
 
 Angular-приложение с CRUD-формой на Signals и облачным хранением данных в **Cloud Firestore**, задеплоенное на **Firebase Hosting**.
-An Angular application featuring a Signals-based CRUD form and cloud data storage via **Cloud Firestore**, deployed to **Firebase Hosting**.
----## Демо / Demo
-**https://web.app**
-
-| Ресурс / Resource | Значение / Value |
-|-------------------|------------------|
-| Firebase-проект / Firebase Project | `lab2part3-31c63` |
-| Firestore-коллекция / Firestore Collection | `trips` |
-| Поля документа / Document Fields | `id`, `description`, `driver` |
-| Hosting | https://web.app |
-| Console | https://google.com |
----## Условие (часть 3) / Assignment (Part 3)> Развернуть приложение на облачной платформе Firebase. Добавить к Firebase проекту NoSQL базу данных Cloud Firestore. В базе создать коллекцию согласно варианта и добавить документы с полями, соответствующими варианту. В папке `services` сгенерировать сервис `firestore.service` с методами для работы с Cloud Firestore.
-> Deploy the application to the Firebase cloud platform. Add the Cloud Firestore NoSQL database to the Firebase project. Create a collection in the database according to the assigned variant and add documents with the fields corresponding to the variant. Generate a `firestore.service` service in the `services` folder containing methods for working with Cloud Firestore.
-### Чек-лист выполнения / Execution Checklist
-- [x] Приложение развёрнуто на Firebase (Hosting) / Application is deployed to Firebase (Hosting)
-- [x] Подключена Cloud Firestore (NoSQL) / Cloud Firestore (NoSQL) is integrated
-- [x] Коллекция `trips` (по варианту 8) / `trips` collection is created (as per variant 8)
-- [x] Документы с полями `id`, `description`, `driver` / Documents include fields: `id`, `description`, `driver`
-- [x] Сервис `services/firestore.service.ts` с CRUD-методами / `services/firestore.service.ts` service with CRUD methods is implemented
----## Стек / Stack<p align="left">
-  <img src="https://shields.io" height="28"/>
-  <img src="https://shields.io" height="28"/>
-  <img src="https://shields.io" height="28"/>
-  <img src="https://shields.io" height="28"/>
-  <img src="https://shields.io" height="28"/>
-  <img src="https://shields.io" height="28"/></p>
----## Структура проекта / Project Structure
-
-Autobaza/
-├── firebase.json # Hosting + Firestore (куда деплоить / where to deploy)
-├── .firebaserc # привязка к проекту / binding to project lab2part3-31c63
-├── firestore.rules # правила доступа к базе / database security rules
-├── firestore.indexes.json # индексы / indexes
-├── angular.json
-├── package.json # + зависимость / dependency: firebase
-└── src/
-├── main.ts
-├── index.html
-└── app/
-├── app.ts # при старте → loadFromFirestore() / on init → loadFromFirestore()
-├── app.html # jumbotron + router-outlet
-├── app.routes.ts # loadChildren (lazy)
-└── trips/
-├── trip.ts # interface Trip
-├── mock-trip-list.ts # 5 mock-рейсов / 5 mock trips
-├── trip.routes.ts # вложенные маршруты / nested routes
-├── trip.store.ts # Signal Store + синхронизация с Firestore / Signal Store + Firestore sync
-├── consts/navigation/
-│ └── navigation-path.enum.ts
-├── services/
-│ ├── trip.service.ts # CRUD (часть 1, RxJS) / CRUD (Part 1, RxJS)
-│ ├── firebase.config.ts # конфиг Firebase (часть 3) / Firebase config (Part 3)
-│ └── firestore.service.ts # CRUD Firestore (часть 3) / Firestore CRUD (Part 3)
-├── trip-center/
-├── trip-list/
-├── trip-details/
-└── add-trip/ # форма на Signals (часть 2) / Signals-based form (Part 2)
-
 
 ---
 
-## Что нового в части 3 (по сравнению с частью 2) / What's New in Part 3 (Compared to Part 2)
+## Демо
 
-### 1. `services/firebase.config.ts` — подключение к проекту / Connecting to the Project
+**https://lab2part3-31c63.web.app**
+
+| Ресурс | Значение |
+|--------|----------|
+| Firebase-проект | `lab2part3-31c63` |
+| Firestore-коллекция | `trips` |
+| Поля документа | `id`, `description`, `driver` |
+| Hosting | https://lab2part3-31c63.web.app |
+| Console | https://console.firebase.google.com/project/lab2part3-31c63/overview |
+| Данные Firestore | https://console.firebase.google.com/project/lab2part3-31c63/firestore/databases/-default-/data |
+
+---
+
+## Условие
+
+### Часть 1
+- Создать приложение командой `ng new`
+- Подключить Bootstrap, добавить jumbotron в корневой компонент
+- Создать папку `trips` с компонентами: **TripCenter**, **TripList**, **TripDetails**
+- Настроить маршрутизацию с ленивой загрузкой (`loadChildren`)
+- Реализировать сервис CRUD-операций
+- Создать mock-данные с рейсами (id, description, driver)
+
+### Часть 2
+- Разработать форму для добавления, обновления и удаления элементов
+- Использовать **Angular Signals** для управления состоянием
+- Добавить ссылку на форму в приложение
+- Реализовать форму с возможностью ввода нового водителя
+
+### Часть 3
+- Развернуть приложение на облачной платформе Firebase
+- Добавить к Firebase проекту NoSQL базу данных Cloud Firestore
+- В базе создать коллекцию согласно варианта и документы с полями варианта
+- В папке `services` сгенерировать сервис `firestore.service` с методами для Cloud Firestore
+
+### Чек-лист части 3
+
+- [x] Приложение развёрнуто на Firebase (Hosting)
+- [x] Подключена Cloud Firestore (NoSQL)
+- [x] Коллекция `trips` (по варианту 8)
+- [x] Документы с полями `id`, `description`, `driver`
+- [x] Сервис `services/firestore.service.ts` с CRUD-методами
+- [x] Публичная ссылка работает
+
+---
+
+## Стек технологий
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular" height="28"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" height="28"/>
+  <img src="https://img.shields.io/badge/Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firestore" height="28"/>
+  <img src="https://img.shields.io/badge/Firebase_Hosting-FFA000?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase Hosting" height="28"/>
+  <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" height="28"/>
+  <img src="https://img.shields.io/badge/Angular_Signals-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular Signals" height="28"/>
+</p>
+
+---
+
+## Архитектура
+
+```
+app (jumbotron + router-outlet + ссылка «Форма рейса»)
+ └── trip.routes (ленивая загрузка)
+      ├── trip-center ──► trip-list ──► trip-details (по :id)
+      ├── addTrip            (форма добавления)
+      └── addTrip/:id        (форма редактирования)
+
+TripStore (signal) ◄── все компоненты читают отсюда
+       │
+       └── FirestoreService ──► Cloud Firestore (trips)
+              ▲
+              └── firebase.config.ts
+```
+
+---
+
+## Что нового в части 3 (по сравнению с частью 2)
+
+### 1. `services/firebase.config.ts` — подключение к проекту
 
 ```typescript
 export const firebaseConfig = {
   apiKey: 'AIzaSy...',
-  authDomain: '://firebaseapp.com',
+  authDomain: 'lab2part3-31c63.firebaseapp.com',
   projectId: 'lab2part3-31c63',
   appId: '1:498338749344:web:...'
 };
 
-export function isFirebaseConfigured(): boolean { ... }
+export const FIRESTORE_COLLECTION = 'trips';
+
+export function isFirebaseConfigured(): boolean {
+  return Boolean(
+    firebaseConfig.apiKey &&
+      firebaseConfig.projectId &&
+      firebaseConfig.appId
+  );
+}
 ```
 
-Конфиг взят из Firebase Console. Если ключи пустые — приложение работает на mock-данных.
-The configuration is retrieved from the Firebase Console. If the keys are empty, the application falls back to mock data.
+Конфиг взят из Firebase Console. Если ключи пустые — приложение работает на mock-данных и не падает.
 
-### 2. `services/firestore.service.ts` — сервис Cloud Firestore / Cloud Firestore Service
+### 2. `services/firestore.service.ts` — сервис Cloud Firestore
 
-| Метод / Method | Операция Firestore / Firestore Operation | Описание / Description |
-|----------------|------------------------------------------|------------------------|
-| `getTrips()` | `onSnapshot` | подписка на всю коллекцию (live) / subscribe to the entire collection (live) |
-| `getTrip(id)` | `onSnapshot` | подписка на один документ / subscribe to a single document |
-| `create(trip)` | `setDoc` | добавление документа / add a document |
-| `update(trip)` | `setDoc` + `merge` | обновление полей / update fields |
-| `delete(trip)` | `deleteDoc` | удаление документа / delete a document |
-| `seedTrips()` | `setDoc` в цикле / in a loop | первый запуск: mock → Firestore / initial run: mock → Firestore |
+| Метод | Операция Firestore | Описание |
+|-------|--------------------|----------|
+| `getTrips()` | `onSnapshot` | подписка на всю коллекцию (live) |
+| `getTrip(id)` | `onSnapshot` | подписка на один документ |
+| `create(trip)` | `setDoc` | добавление документа |
+| `update(trip)` | `setDoc` + `merge` | обновление полей |
+| `delete(trip)` | `deleteDoc` | удаление документа |
+| `seedTrips()` | `setDoc` в цикле | первый запуск: mock → Firestore |
 
-Ключевой момент — **реактивное чтение**:
-Key highlight — **reactive reading**:
+**Ленивая инициализация:**
 
 ```typescript
-return new Observable<Trip[]>(subscriber => {
-  const unsub = onSnapshot(collection(db, 'trips'), snapshot => {
-    subscriber.next(snapshot.docs.map(...));
-  });
-  return () => unsub();
+private ensureDb(): Firestore | null {
+  if (!this.useFirestore) return null;       // нет конфига → без облака
+  if (!this.db) {
+    this.app = initializeApp(firebaseConfig); // подключение 1 раз
+    this.db = getFirestore(this.app);
+  }
+  return this.db;                             // дальше — кэш
+}
+```
+
+**Реактивное чтение (`onSnapshot` вместо обычного GET):**
+
+```typescript
+return new Observable<Trip[]>((subscriber) => {
+  const unsubscribe = onSnapshot(
+    collection(db, this.collectionName),
+    (snapshot) => {
+      const trips = snapshot.docs.map((d) => ({ ... }));
+      subscriber.next(trips);
+    },
+    (error) => subscriber.error(error)
+  );
+  return () => unsubscribe();
 });
 ```
 
-`onSnapshot` присылает данные при **любом** изменении в базе — в т.ч. из консоли Firebase или другого клиента.
-`onSnapshot` pushes fresh data upon **any** change in the database — including modifications via the Firebase console or another client.
+`onSnapshot` присылает данные при **любом** изменении в Firestore — из сайта, консоли Firebase или другого клиента.
 
-### 3. `trip.store.ts` — двойная запись / Dual Write
+**id документа = id рейса:**
+
+```typescript
+const ref = doc(db, this.collectionName, String(trip.id)); // trips/3
+await setDoc(ref, { id, description, driver });
+```
+
+### 3. `trip.store.ts` — двойная запись
 
 ```typescript
 create(trip: Trip) {
-  this.trips.update(list => [...list, trip]);  // 1) локально, UI мгновенно / locally, UI updates instantly
+  this.trips.update((list) => [...list, trip]);  // 1) локально, UI мгновенно
   if (isFirebaseConfigured()) {
-    void this.firestore.create(trip);           // 2) в облако, фоном / to the cloud, in the background
+    void this.firestore.create(trip);            // 2) в облако, фоном
   }
 }
 ```
 
 ```typescript
-async loadFromFirestore() {
-  await this.firestore.seedTrips([...TRIPS]);   // mock → Firestore
-  this.firestore.getTrips().subscribe(remote => {
+async loadFromFirestore(): Promise<void> {
+  if (!isFirebaseConfigured()) return;
+  await this.firestore.seedTrips([...TRIPS]);    // mock → Firestore
+  this.firestore.getTrips().subscribe((remote) => {
     if (remote.length > 0) this.trips.set(remote);
   });
 }
 ```
 
-### 4. `app.ts` — запуск при старте / Initialization on Startup
+### 4. `app.ts` — запуск при старте
+
+```typescript
+ngOnInit(): void {
+  void this.store.loadFromFirestore(); // seed + подписка
+}
+```
+
+### 5. `trip.service.ts` — RxJS-сервис с fallback на mock
+
+```typescript
+getTrips(): Observable<Trip[]> {
+  if (isFirebaseConfigured()) {
+    return this.firestore.getTrips().pipe(
+      map((remote) => (remote.length > 0 ? remote : this.trips))
+    );
+  }
+  return of(this.trips);
+}
+```
+
+### 6. `firestore.rules` — правила доступа
+
+```
+match /{document=**} {
+  allow read, write: if true;   // открыто для демо (без Auth)
+}
+```
+
+### 7. `firebase.json` + `.firebaserc` — конфиг деплоя
+
+```json
+{ "hosting": { "public": "dist/Autobaza/browser" } }
+```
+
+`.firebaserc` привязывает папку к проекту `lab2part3-31c63`.
+
+### 8. `package.json` — + зависимость firebase
+
+```diff
++ "firebase": "^12.19.0"
+```
+
+---
+
+## Маршрутизация
+
+Ленивая загрузка через `loadChildren` в `app.routes.ts`.
+
+| Путь | Компонент | Описание |
+|------|-----------|----------|
+| `/` | → redirect | Редирект на `/trip-center` |
+| `/trip-center` | TripCenter → TripList | Список рейсов |
+| `/trip-center/:id` | → TripDetails | Детали рейса |
+| `/addTrip` | AddTrip | Форма добавления |
+| `/addTrip/:id` | AddTrip | Форма редактирования |
+
+---
+
+## Angular Signals — что использовано
+
+```typescript
+trips = signal<Trip[]>([...TRIPS]);       // хранилище
+trips.update(list => [...list, trip]);    // иммутабельное обновление
+formValid = computed(() => ...);          // производная (валидация)
+```
+
+Иммутабельное обновление: всегда новый массив. `push` мутирует тот же массив — сигнал не видит изменения.
+
+---
+
+## Структура проекта
+
+```
+Autobaza/
+├── firebase.json
+├── .firebaserc
+├── firestore.rules
+├── firestore.indexes.json
+├── angular.json
+├── package.json
+└── src/
+    ├── main.ts
+    ├── index.html
+    └── app/
+        ├── app.ts
+        ├── app.html
+        ├── app.routes.ts
+        └── trips/
+            ├── trip.ts
+            ├── mock-trip-list.ts
+            ├── trip.routes.ts
+            ├── trip.store.ts
+            ├── consts/navigation/
+            │   └── navigation-path.enum.ts
+            ├── services/
+            │   ├── trip.service.ts
+            │   ├── firebase.config.ts
+            │   └── firestore.service.ts
+            ├── trip-center/
+            ├── trip-list/
+            ├── trip-details/
+            └── add-trip/
+```
+
+---
+
+## Ключевые файлы
+
+| Файл | Назначение |
+|------|-----------|
+| `trip.store.ts` | Signal Store + синхронизация с Firestore |
+| `firestore.service.ts` | CRUD для Cloud Firestore (`onSnapshot`, `setDoc`) |
+| `firebase.config.ts` | конфиг проекта + `isFirebaseConfigured()` |
+| `add-trip.component.ts` | форма на сигналах: валидация, CRUD |
+| `trip.routes.ts` | вложенная маршрутизация |
+| `firestore.rules` | правила доступа к базе |
+| `firebase.json` | куда деплоить Hosting и правила |
+
+---
+
+## Соответствие условию части 3
+
+| Требование | Файл / факт |
+|------------|-------------|
+| Приложение на Firebase | Hosting: `lab2part3-31c63.web.app` |
+| NoSQL Cloud Firestore | база `lab2part3-31c63`, europe-west1 |
+| Коллекция по варианту | `trips` |
+| Документы с полями варианта | `{ id, description, driver }` |
+| `services/firestore.service` | `src/app/trips/services/firestore.service.ts` |
+| Методы для Cloud Firestore | `getTrips`, `getTrip`, `create`, `update`, `delete`, `seedTrips` |
+
+---
+
+## Запуск
+
+```bash
+npm install
+npm start
+```
+
+Приложение доступно по адресу `http://localhost:4200`.
+
+## Деплой после правок
+
+```bash
+npm run build
+firebase deploy --only hosting
+firebase deploy --only firestore:rules
+```
+
+## Данные Firestore
+
+[Firestore Console](https://console.firebase.google.com/project/lab2part3-31c63/firestore/databases/-default-/data) → коллекция **`trips`**.
+
+Пример документа:
+
+```json
+{ "id": 1, "description": "Перевозка грузов", "driver": "Дроздов А.В." }
+```
+
+---
+
+## Что сделано
+
+- [x] Создано Angular-приложение через `ng new`
+- [x] Подключена Bootstrap (CSS в `angular.json`)
+- [x] Добавлен jumbotron с заголовком «Автобаза» и кнопкой «Форма рейса»
+- [x] Создана папка `trips` с компонентами TripCenter, TripList, TripDetails
+- [x] Реализован сервис `TripService` с CRUD-операциями
+- [x] Созданы mock-данные с 5 рейсами
+- [x] Настроена маршрутизация с ленивой загрузкой (`loadChildren`)
+- [x] **Signal Store** (`trip.store.ts`) — управление состоянием через `signal` / `computed` / `update`
+- [x] **Signal Form** (`add-trip`) — форма добавления/редактирования/удаления на сигналах
+- [x] Валидация формы через `computed`
+- [x] Поле водителя с datalist — возможность ввода нового водителя
+- [x] **Part 3 — Firebase/Firestore**: `firestore.service.ts` с CRUD-методами
+- [x] Конфигурация Firebase в `firebase.config.ts`
+- [x] Коллекция Firestore: `trips` (id, description, driver)
+- [x] Seed mock-данных в Firestore при первом запуске
+- [x] Fallback на mock-данные, если Firebase не настроен
+- [x] Приложение задеплоено на Firebase Hosting
+
+---
+
+## Автор
+
+**Нурмедов Азат**  
+Telegram: @fakevv | Instagram: nurmedovv | Email: azatnurmedovv2554@gmail.com
+
+---
+---
+
+# Laboratory Work №2 — TypeScript, Angular, Firebase (Part 3)
+
+Angular application for **Car Database** variant.  
+**Variant 8**: Car Database. Trip Management.
+
+Angular application with a CRUD form on **Signals** and cloud storage in **Cloud Firestore**, deployed to **Firebase Hosting**.
+
+---
+
+## Demo
+
+**https://lab2part3-31c63.web.app**
+
+| Resource | Value |
+|----------|-------|
+| Firebase project | `lab2part3-31c63` |
+| Firestore collection | `trips` |
+| Document fields | `id`, `description`, `driver` |
+| Hosting URL | https://lab2part3-31c63.web.app |
+| Firebase Console | https://console.firebase.google.com/project/lab2part3-31c63/overview |
+| Firestore data | https://console.firebase.google.com/project/lab2part3-31c63/firestore/databases/-default-/data |
+
+---
+
+## Task
+
+### Part 1
+- Create the app with `ng new`
+- Integrate Bootstrap, add a jumbotron to the root component
+- Create a `trips` folder with components: **TripCenter**, **TripList**, **TripDetails**
+- Configure routing with lazy loading (`loadChildren`)
+- Implement a CRUD service
+- Create mock trip data (`id`, `description`, `driver`)
+
+### Part 2
+- Develop a form for adding, updating, and deleting items
+- Use **Angular Signals** for state management
+- Add a link to the form in the application
+- Implement a form with the ability to enter a new driver
+
+### Part 3
+- Deploy the application on the Firebase cloud platform
+- Add a Cloud Firestore NoSQL database to the Firebase project
+- Create a collection per the variant with documents and matching fields
+- Generate `firestore.service` in the `services` folder with methods for Cloud Firestore
+
+### Part 3 checklist
+
+- [x] Application deployed on Firebase (Hosting)
+- [x] Cloud Firestore (NoSQL) connected
+- [x] Collection `trips` (variant 8)
+- [x] Documents with fields `id`, `description`, `driver`
+- [x] Service `services/firestore.service.ts` with CRUD methods
+- [x] Public demo link works
+
+---
+
+## Tech Stack
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular" height="28"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" height="28"/>
+  <img src="https://img.shields.io/badge/Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firestore" height="28"/>
+  <img src="https://img.shields.io/badge/Firebase_Hosting-FFA000?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase Hosting" height="28"/>
+  <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" height="28"/>
+  <img src="https://img.shields.io/badge/Angular_Signals-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular Signals" height="28"/>
+</p>
+
+---
+
+## Architecture
+
+```
+app (jumbotron + router-outlet + "Trip form" link)
+ └── trip.routes (lazy loading)
+      ├── trip-center ──► trip-list ──► trip-details (by :id)
+      ├── addTrip            (add form)
+      └── addTrip/:id        (edit form)
+
+TripStore (signal) ◄── all components read from here
+       │
+       └── FirestoreService ──► Cloud Firestore (trips)
+              ▲
+              └── firebase.config.ts
+```
+
+---
+
+## What Is New in Part 3 (compared to Part 2)
+
+### 1. `services/firebase.config.ts` — project connection
+
+```typescript
+export const firebaseConfig = {
+  apiKey: 'AIzaSy...',
+  authDomain: 'lab2part3-31c63.firebaseapp.com',
+  projectId: 'lab2part3-31c63',
+  appId: '1:498338749344:web:...'
+};
+
+export const FIRESTORE_COLLECTION = 'trips';
+
+export function isFirebaseConfigured(): boolean {
+  return Boolean(
+    firebaseConfig.apiKey &&
+      firebaseConfig.projectId &&
+      firebaseConfig.appId
+  );
+}
+```
+
+Config from Firebase Console. If keys are empty, the app falls back to mock data.
+
+### 2. `services/firestore.service.ts` — Cloud Firestore service
+
+| Method | Firestore operation | Description |
+|--------|--------------------|-------------|
+| `getTrips()` | `onSnapshot` | live subscription to the collection |
+| `getTrip(id)` | `onSnapshot` | live subscription to one document |
+| `create(trip)` | `setDoc` | add a document |
+| `update(trip)` | `setDoc` + `merge` | update fields |
+| `delete(trip)` | `deleteDoc` | remove a document |
+| `seedTrips()` | `setDoc` in a loop | first run: mock → Firestore |
+
+**Lazy initialization:**
+
+```typescript
+private ensureDb(): Firestore | null {
+  if (!this.useFirestore) return null;
+  if (!this.db) {
+    this.app = initializeApp(firebaseConfig);
+    this.db = getFirestore(this.app);
+  }
+  return this.db;
+}
+```
+
+**Reactive reading (`onSnapshot` instead of a one-shot GET):**
+
+```typescript
+return new Observable<Trip[]>((subscriber) => {
+  const unsubscribe = onSnapshot(
+    collection(db, this.collectionName),
+    (snapshot) => {
+      const trips = snapshot.docs.map((d) => ({ ... }));
+      subscriber.next(trips);
+    },
+    (error) => subscriber.error(error)
+  );
+  return () => unsubscribe();
+});
+```
+
+`onSnapshot` pushes data on every Firestore change — from the site, the Firebase console, or any other client.
+
+**Document id = business id:**
+
+```typescript
+const ref = doc(db, this.collectionName, String(trip.id)); // trips/3
+await setDoc(ref, { id, description, driver });
+```
+
+### 3. `trip.store.ts` — dual write
+
+```typescript
+create(trip: Trip) {
+  this.trips.update((list) => [...list, trip]);  // 1) local — UI is instant
+  if (isFirebaseConfigured()) {
+    void this.firestore.create(trip);            // 2) cloud — background
+  }
+}
+```
+
+```typescript
+async loadFromFirestore(): Promise<void> {
+  if (!isFirebaseConfigured()) return;
+  await this.firestore.seedTrips([...TRIPS]);
+  this.firestore.getTrips().subscribe((remote) => {
+    if (remote.length > 0) this.trips.set(remote);
+  });
+}
+```
+
+### 4. `app.ts` — startup hook
 
 ```typescript
 ngOnInit(): void {
@@ -135,129 +565,183 @@ ngOnInit(): void {
 }
 ```
 
-### 5. `firestore.rules` — правила доступа / Security Rules
+### 5. `trip.service.ts` — RxJS service with mock fallback
 
-
-match /{document=**} {
-allow read, write: if true; // открыто для демо (без Auth) / open for demo purposes (no Auth)
+```typescript
+getTrips(): Observable<Trip[]> {
+  if (isFirebaseConfigured()) {
+    return this.firestore.getTrips().pipe(
+      map((remote) => (remote.length > 0 ? remote : this.trips))
+    );
+  }
+  return of(this.trips);
 }
+```
 
+### 6. `firestore.rules` — security rules
 
-### 6. `firebase.json` + `.firebaserc` — деплой / Deployment
+```
+match /{document=**} {
+  allow read, write: if true;  // open access for the demo (no Auth)
+}
+```
+
+### 7. `firebase.json` + `.firebaserc` — deploy config
 
 ```json
 { "hosting": { "public": "dist/Autobaza/browser" } }
 ```
 
----
+`.firebaserc` binds the folder to project `lab2part3-31c63`.
 
-## Архитектура данных / Data Architecture
+### 8. `package.json` — new dependency
 
-
-┌──────────────┐ signal/computed ┌─────────────┐
-│ Компоненты │ ◄─────────────────► │ TripStore │
-│ Components │ └──────┬──────┘
-└──────────────┘ │ create/update/delete
-▼
-┌──────────────┐
-│ Firestore │
-│ Service │
-└──────┬───────┘
-│ onSnapshot / setDoc
-▼
-┌──────────────┐
-│ Cloud │
-│ Firestore │
-│ trips/{id} │
-└──────────────┘
-
-
-1. Пользователь нажимает «Добавить» → `store.create()` → Signal обновляет UI
-2. Параллельно `firestore.create()` пишет документ в облако
-3. `onSnapshot` возвращает данные → `trips.set(remote)` → UI синхронизирован
-
-1. User clicks "Add" → `store.create()` → Signal updates the UI
-2. Simultaneously, `firestore.create()` writes the document to the cloud
-3. `onSnapshot` returns the updated data → `trips.set(remote)` → UI is fully synchronized
-
----
-
-## Маршрутизация / Routing
-
-| Путь / Path | Компонент / Component | Описание / Description |
-|-------------|-----------------------|------------------------|
-| `/` | → redirect | → `/trip-center` |
-| `/trip-center` | TripCenter → TripList | список рейсов / trip list |
-| `/trip-center/:id` | → TripDetails | детали рейса / trip details |
-| `/addTrip` | AddTrip | форма добавления / add form |
-| `/addTrip/:id` | AddTrip | форма редактирования / edit form |
-
-Ленивая загрузка: `loadChildren` в `app.routes.ts`.
-Lazy loading: handled via `loadChildren` in `app.routes.ts`.
-
----
-
-## Angular Signals (часть 2, осталось базой) / Angular Signals (Part 2, remains as the foundation)
-
-```typescript
-trips = signal<Trip[]>([...TRIPS]);       // хранилище / data store
-trips.update(list => [...list, trip]);    // иммутабельное обновление / immutable update
-formValid = computed(() => ...);          // производная (валидация) / derived state (validation)
+```diff
++ "firebase": "^12.19.0"
 ```
 
 ---
 
-## Запуск локально / Local Setup
+## Routing
+
+Lazy loading via `loadChildren` in `app.routes.ts`.
+
+| Path | Component | Description |
+|------|-----------|-------------|
+| `/` | → redirect | to `/trip-center` |
+| `/trip-center` | TripCenter → TripList | trip list |
+| `/trip-center/:id` | → TripDetails | trip details |
+| `/addTrip` | AddTrip | add form |
+| `/addTrip/:id` | AddTrip | edit form |
+
+---
+
+## Angular Signals — Usage
+
+```typescript
+trips = signal<Trip[]>([...TRIPS]);
+trips.update(list => [...list, trip]);  // immutable update
+formValid = computed(() => ...);        // derived validation
+```
+
+Always create a new array — `push` mutates in place and the Signal will not detect the change.
+
+---
+
+## Project Structure
+
+```
+Autobaza/
+├── firebase.json
+├── .firebaserc
+├── firestore.rules
+├── firestore.indexes.json
+├── angular.json
+├── package.json
+└── src/
+    ├── main.ts
+    ├── index.html
+    └── app/
+        ├── app.ts
+        ├── app.html
+        ├── app.routes.ts
+        └── trips/
+            ├── trip.ts
+            ├── mock-trip-list.ts
+            ├── trip.routes.ts
+            ├── trip.store.ts
+            ├── consts/navigation/
+            │   └── navigation-path.enum.ts
+            ├── services/
+            │   ├── trip.service.ts
+            │   ├── firebase.config.ts
+            │   └── firestore.service.ts
+            ├── trip-center/
+            ├── trip-list/
+            ├── trip-details/
+            └── add-trip/
+```
+
+---
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `trip.store.ts` | Signal Store + Firestore sync |
+| `firestore.service.ts` | Cloud Firestore CRUD (`onSnapshot`, `setDoc`) |
+| `firebase.config.ts` | project config + `isFirebaseConfigured()` |
+| `add-trip.component.ts` | Signal form: validation, CRUD |
+| `trip.routes.ts` | nested routing |
+| `firestore.rules` | database access rules |
+| `firebase.json` | Hosting and rules deploy target |
+
+---
+
+## Part 3 Compliance
+
+| Requirement | Implementation |
+|-------------|----------------|
+| Application on Firebase | Hosting: `lab2part3-31c63.web.app` |
+| NoSQL Cloud Firestore | database `lab2part3-31c63`, europe-west1 |
+| Collection per variant | `trips` |
+| Documents with variant fields | `{ id, description, driver }` |
+| `services/firestore.service` | `src/app/trips/services/firestore.service.ts` |
+| Methods for Cloud Firestore | `getTrips`, `getTrip`, `create`, `update`, `delete`, `seedTrips` |
+
+---
+
+## Run
 
 ```bash
 npm install
-npm start          # http://localhost:4200
+npm start
 ```
 
-## Деплой после правок / Deployment After Changes
+Application is available at `http://localhost:4200`.
+
+## Deploy after changes
 
 ```bash
 npm run build
 firebase deploy --only hosting
-```
-
-## Firestore
-
-```bash
 firebase deploy --only firestore:rules
 ```
 
-Данные: [Firestore Console](https://google.com)
+## Firestore data
+
+[Firestore Console](https://console.firebase.google.com/project/lab2part3-31c63/firestore/databases/-default-/data) → collection **`trips`**.
+
+Document example:
+
+```json
+{ "id": 1, "description": "Freight delivery", "driver": "Drozdov A.V." }
+```
 
 ---
 
-## Соответствие условию части 3 / Alignment with Part 3 Requirements
+## Done
 
-| Требование / Requirement | Файл / факт // File / Evidence |
-|--------------------------|--------------------------------|
-| Приложение на Firebase / App on Firebase | Hosting: `lab2part3-31c63.web.app` |
-| NoSQL Cloud Firestore | база `lab2part3-31c63`, europe-west1 / database `lab2part3-31c63`, europe-west1 |
-| Коллекция по варианту / Collection as per variant | `trips` |
-| Документы с полями варианта / Document fields | `{ id, description, driver }` |
-| `services/firestore.service` | `src/app/trips/services/firestore.service.ts` |
-| Методы для Cloud Firestore / Cloud Firestore methods | `getTrips`, `getTrip`, `create`, `update`, `delete`, `seedTrips` |
-
----
-
-## Условие частей 1–2 (для контекста) / Assignment Requirements for Parts 1–2 (For Context)
-
-**Часть 1:** `ng new`, Bootstrap, jumbotron, папка `trips` (TripCenter/TripList/TripDetails), lazy routing, CRUD-сервис, mock-данные.
-**Part 1:** `ng new`, Bootstrap, jumbotron, `trips` folder (TripCenter/TripList/TripDetails), lazy routing, CRUD service, mock data.
-
-**Часть 2:** форма добавления/обновления/удаления, Angular Signals, ссылка на форму, ввод нового водителя (`datalist`).
-**Part 2:** add/update/delete form, Angular Signals, links navigation to the form, custom driver input (`datalist`).
+- [x] Created Angular application via `ng new`
+- [x] Integrated Bootstrap with jumbotron
+- [x] Created `trips` folder with TripCenter, TripList, TripDetails
+- [x] Implemented `TripService` with CRUD operations
+- [x] Created mock data with 5 trips
+- [x] Configured routing with lazy loading (`loadChildren`)
+- [x] **Signal Store** — state management via `signal` / `computed` / `update`
+- [x] **Signal Form** — add/edit/delete form on signals
+- [x] Form validation via `computed`
+- [x] Driver input with datalist for new drivers
+- [x] **Part 3 — Firebase/Firestore**: `firestore.service.ts` with CRUD methods
+- [x] Firebase config in `firebase.config.ts`
+- [x] Firestore collection: `trips` (id, description, driver)
+- [x] Seed mock data to Firestore on first run
+- [x] Fallback to mock data if Firebase not configured
+- [x] Application deployed to Firebase Hosting
 
 ---
 
-## Автор / Author
+## Author
 
-**Нурмедов Азат / Azat Nurmedov**
-Telegram: @fakevv | Email: azatnurmedovv2554@gmail.com
-
-
-
+**Azat Nurmedov**  
+Telegram: @fakevv | Instagram: nurmedovv | Email: azatnurmedovv2554@gmail.com
