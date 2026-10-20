@@ -1,0 +1,45 @@
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.connector.ConnectionPool init
+INFO: Connection pool initialized, size = 5
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.dao.DAODriver delete
+INFO: Driver 4 deleted
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.dao.DAO fail
+INFO: Driver with id = 1 is assigned to trips, delete those trips first
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.view.Runner run
+INFO: Menu action failed
+by.bsu.lab3.exept.DAOException: Driver with id = 1 is assigned to trips, delete those trips first
+	at by.bsu.lab3.dao.DAO.fail(DAO.java:49)
+	at by.bsu.lab3.dao.DAODriver.delete(DAODriver.java:109)
+	at by.bsu.lab3.view.Runner.deleteDriver(Runner.java:239)
+	at by.bsu.lab3.view.Runner.run(Runner.java:120)
+	at by.bsu.lab3.view.Runner.main(Runner.java:74)
+
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.dao.DAOTrip delete
+INFO: Trip 1 deleted
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.dao.DAODriver delete
+INFO: Driver 1 deleted
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.dao.DAO fail
+INFO: Car with id = 4 is used by trips, delete those trips first
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.view.Runner run
+INFO: Menu action failed
+by.bsu.lab3.exept.DAOException: Car with id = 4 is used by trips, delete those trips first
+	at by.bsu.lab3.dao.DAO.fail(DAO.java:49)
+	at by.bsu.lab3.dao.DAOCar.delete(DAOCar.java:158)
+	at by.bsu.lab3.view.Runner.deleteCar(Runner.java:246)
+	at by.bsu.lab3.view.Runner.run(Runner.java:121)
+	at by.bsu.lab3.view.Runner.main(Runner.java:74)
+
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.dao.DAOCar delete
+INFO: Car 5 deleted
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.dao.DAO fail
+INFO: Trip with id = 99 is not found
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.view.Runner run
+INFO: Menu action failed
+by.bsu.lab3.exept.DAOException: Trip with id = 99 is not found
+	at by.bsu.lab3.dao.DAO.fail(DAO.java:49)
+	at by.bsu.lab3.dao.DAOTrip.delete(DAOTrip.java:276)
+	at by.bsu.lab3.view.Runner.deleteTrip(Runner.java:253)
+	at by.bsu.lab3.view.Runner.run(Runner.java:122)
+	at by.bsu.lab3.view.Runner.main(Runner.java:74)
+
+окт. 02, 2026 3:20:25 PM by.bsu.lab3.connector.ConnectionPool closePool
+INFO: Closing connection pool, total connections = 5
