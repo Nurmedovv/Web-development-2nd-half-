@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Создать рейс</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="../../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Создать рейс</h1>
+</header>
+<main>
+    <section>
+        <p class="empty">
+            ID рейса задаётся вручную и не может быть 0 или совпадать с существующим.
+            Автомобиль (необязательно) должен быть исправным и соответствовать заявке.
+        </p>
+
+        <form class="styled" method="post" th:action="@{/welcome/trips/create}">
+            <label>
+                ID рейса
+                <input type="number" name="tripId" min="1" required="required" th:value="${tripId}"/>
+            </label>
+            <label>
+                ID заявки
+                <input type="number" name="requestId" min="1" required="required" th:value="${requestId}"/>
+            </label>
+            <label>
+                ID автомобиля (необязательно)
+                <input type="number" name="carId" min="1" th:value="${carId}"/>
+            </label>
+            <label>
+                Дата отправления
+                <input type="date" name="departureDate" required="required" th:value="${departureDate}"/>
+            </label>
+            <button type="submit">Создать</button>
+        </form>
+
+        <p th:if="${createError}" class="error" th:text="${createError}">Ошибка</p>
+        <p th:if="${createSuccess}" class="success" th:text="${createSuccess}">Успех</p>
+
+        <a class="back" th:href="@{/}" href="../../../index.html">На главную</a>
+    </section>
+</main>
+<footer>
+    <p th:if="${visits != null}">
+        Посещений: <span th:text="${visits}">1</span>,
+        предыдущий визит: <span th:text="${lastVisit}">—</span>
+    </p>
+</footer>
+</body>
+</html>

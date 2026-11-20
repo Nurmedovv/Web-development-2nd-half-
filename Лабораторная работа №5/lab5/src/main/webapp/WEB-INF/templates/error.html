@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ошибка</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="../../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Ошибка</h1>
+</header>
+<main>
+    <section>
+        <p class="error" th:text="${errorMessage}">Произошла ошибка.</p>
+        <p>
+            Попробуйте обновить страницу позже. Если проблема повторяется,
+            обратитесь к администратору — подробности записаны в журнал <code>lab5.log</code>.
+        </p>
+        <a class="back" th:href="@{/}" href="../../../index.html">На главную</a>
+    </section>
+</main>
+<footer>
+    <p th:if="${visits != null}">
+        Посещений: <span th:text="${visits}">1</span>,
+        предыдущий визит: <span th:text="${lastVisit}">—</span>
+    </p>
+</footer>
+</body>
+</html>

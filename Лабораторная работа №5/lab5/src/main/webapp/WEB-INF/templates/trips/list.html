@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список рейсов</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="../../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Список рейсов</h1>
+</header>
+<main>
+    <section>
+        <p th:if="${#lists.isEmpty(trips)}" class="empty">Рейсов пока нет.</p>
+        <table th:unless="${#lists.isEmpty(trips)}">
+            <tr>
+                <th>ID</th>
+                <th>Маршрут</th>
+                <th>Заказчик</th>
+                <th>Водитель</th>
+                <th>Автомобиль</th>
+                <th>Статус</th>
+                <th>Отправление</th>
+                <th>Завершение</th>
+                <th>Состояние авто после рейса</th>
+            </tr>
+            <tr th:each="t : ${trips}">
+                <td th:text="${t.id}">1</td>
+                <td th:text="${t.request.route.cityFrom} + ' — ' + ${t.request.route.cityTo}">Минск — Брест</td>
+                <td th:text="${t.request.customer.name}">ООО</td>
+                <td th:text="${t.driver != null} ? ${t.driver.fullName} : '—'">—</td>
+                <td th:text="${t.car != null} ? ${t.car.plateNumber} : '—'">—</td>
+                <td th:text="${t.status}">PLANNED</td>
+                <td th:text="${t.departureDate}">2026-10-15</td>
+                <td th:text="${t.completionDate != null} ? ${t.completionDate} : '—'">—</td>
+                <td th:text="${t.carConditionAfter != null} ? ${t.carConditionAfter} : '—'">—</td>
+            </tr>
+        </table>
+        <a class="back" th:href="@{/}" href="../../../index.html">На главную</a>
+    </section>
+</main>
+<footer>
+    <p th:if="${visits != null}">
+        Посещений: <span th:text="${visits}">1</span>,
+        предыдущий визит: <span th:text="${lastVisit}">—</span>
+    </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Автомобили в ремонте</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="../../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Автомобили в ремонте</h1>
+</header>
+<main>
+    <section>
+        <p th:if="${#lists.isEmpty(cars)}" class="empty">Автомобилей в ремонте нет.</p>
+        <table th:unless="${#lists.isEmpty(cars)}">
+            <tr>
+                <th>ID</th>
+                <th>Гос. номер</th>
+                <th>Модель</th>
+                <th>Тип кузова</th>
+                <th>Грузоподъёмность, кг</th>
+                <th>Статус</th>
+            </tr>
+            <tr th:each="c : ${cars}">
+                <td th:text="${c.id}">1</td>
+                <td th:text="${c.plateNumber}">1234AB-7</td>
+                <td th:text="${c.model}">МАЗ-4370</td>
+                <td th:text="${c.bodyType.name}">фургон</td>
+                <td th:text="${c.loadKg}">3000</td>
+                <td th:text="${c.status}">REPAIR</td>
+            </tr>
+        </table>
+        <a class="back" th:href="@{/}" href="../../../index.html">На главную</a>
+    </section>
+</main>
+<footer>
+    <p th:if="${visits != null}">
+        Посещений: <span th:text="${visits}">1</span>,
+        предыдущий визит: <span th:text="${lastVisit}">—</span>
+    </p>
+</footer>
+</body>
+</html>

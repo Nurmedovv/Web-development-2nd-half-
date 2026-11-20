@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Автобаза — информационная система</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="css/style.css"/>
+</head>
+<body>
+<header class="hero">
+    <div class="hero-inner">
+        <p class="hero-badge">Лабораторная работа №5 · Вариант 8</p>
+        <h1>Информационная система «Автобаза»</h1>
+        <p class="hero-sub">
+            Диспетчеризация заявок на грузоперевозки: маршруты, водители и автомобили
+            в единой базе данных
+        </p>
+    </div>
+</header>
+
+<main>
+    <section class="card">
+        <h2>О системе</h2>
+        <p>
+            Система предназначена для диспетчеризации заявок на грузоперевозки.
+            Диспетчер распределяет заявки между водителями, за каждыми из которых
+            закреплён свой автомобиль. На рейс назначается автомобиль, находящийся
+            в исправном состоянии и характеристики которого соответствуют заявке:
+            тип кузова и грузоподъёмность.
+        </p>
+        <p>
+            Приложение построено по паттерну «фронт-контроллер»: единый сервлет-диспетчер
+            принимает все запросы и передаёт их отдельным контроллерам. Страницы
+            генерируются серверной шаблонизацией Thymeleaf, данные хранятся в базе
+            <code>autobase</code> (Microsoft SQL Server) и доступаются через JPA.
+        </p>
+        <div class="tech">
+            <span>Java Servlet</span>
+            <span>Thymeleaf</span>
+            <span>JPA · EclipseLink</span>
+            <span>MS SQL Server</span>
+            <span>Log4j2</span>
+            <span>Jetty</span>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Меню</h2>
+        <div class="grid">
+            <a class="tile" th:href="@{/welcome/trips/list}" href="welcome/trips/list">
+                <span class="tile-title">Список рейсов</span>
+                <span class="tile-desc">Все рейсы: маршруты, водители, статусы</span>
+            </a>
+            <a class="tile" th:href="@{/welcome/trips/by-driver}" href="welcome/trips/by-driver">
+                <span class="tile-title">Рейсы по водителю</span>
+                <span class="tile-desc">Поиск рейсов по ID водителя</span>
+            </a>
+            <a class="tile" th:href="@{/welcome/trips/create}" href="welcome/trips/create">
+                <span class="tile-title">Создать рейс</span>
+                <span class="tile-desc">Форма добавления нового рейса</span>
+            </a>
+            <a class="tile" th:href="@{/welcome/cars/repair}" href="welcome/cars/repair">
+                <span class="tile-title">Автомобили в ремонте</span>
+                <span class="tile-desc">Машины, исключённые из рейсов</span>
+            </a>
+            <a class="tile" th:href="@{/welcome/drivers/list}" href="welcome/drivers/list">
+                <span class="tile-title">Список водителей</span>
+                <span class="tile-desc">Состав водителей автобазы</span>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Web-разработка, 2 полугодие · Нурмедов Азат</p>
+</footer>
+</body>
+</html>

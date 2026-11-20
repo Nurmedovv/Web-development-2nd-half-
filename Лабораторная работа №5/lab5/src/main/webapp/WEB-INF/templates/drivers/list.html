@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список водителей</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="../../../css/style.css"/>
+</head>
+<body>
+<header>
+    <h1>Список водителей</h1>
+</header>
+<main>
+    <section>
+        <p th:if="${#lists.isEmpty(drivers)}" class="empty">Водителей нет.</p>
+        <table th:unless="${#lists.isEmpty(drivers)}">
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>Категория прав</th>
+                <th>Телефон</th>
+            </tr>
+            <tr th:each="d : ${drivers}">
+                <td th:text="${d.id}">1</td>
+                <td th:text="${d.fullName}">Иванов Иван Иванович</td>
+                <td th:text="${d.licenseCategory}">B</td>
+                <td th:text="${d.phone != null} ? ${d.phone} : '—'">—</td>
+            </tr>
+        </table>
+        <a class="back" th:href="@{/}" href="../../../index.html">На главную</a>
+    </section>
+</main>
+<footer>
+    <p th:if="${visits != null}">
+        Посещений: <span th:text="${visits}">1</span>,
+        предыдущий визит: <span th:text="${lastVisit}">—</span>
+    </p>
+</footer>
+</body>
+</html>
